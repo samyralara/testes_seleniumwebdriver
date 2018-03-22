@@ -115,10 +115,68 @@ public class TesteCampoTreinamento {
 		WebElement element = driver.findElement(By.id("elementosForm:esportes"));
 		Select combo = new Select (element); 
 		combo.selectByVisibleText("Natacao");
-		combo.selectByVisibleText("");
-		combo.selectByVisibleText("");
+		combo.selectByVisibleText("Corrida");
+		combo.selectByVisibleText("O que eh esporte?");
+	
+		//verificar se possui tres elementos selecionados no combo
+		//salva a lista de elementos selecionados na pasta
+		List <WebElement> allSelectOptions = combo.getAllSelectedOptions();
+		//comparar se o total da lista é igual a 3
+		Assert.assertEquals(3, allSelectOptions.size());
+		
+		//para desmarcar algo já selecionado
+		combo.deselectByVisibleText("Corrida");
+		
+		 allSelectOptions = combo.getAllSelectedOptions();
+		
+		//verificar se possui 2 elementos selecionados no combo
+		//comparar se o total da lista é igual a 2
+		Assert.assertEquals(2, allSelectOptions.size());
+		driver.quit();
+		
+	}
+	
+	@Test
+	public void  deveInteragirComBotoes(){
+		System.setProperty("webdriver.chrome.driver", "C:/selenium/chromedriver.exe");
+		ChromeDriver driver = new ChromeDriver();
+		driver.get("file:///" + System.getProperty("user.dir")+ "/src/main/resources/componentes.html");
+		WebElement botao = driver.findElement(By.id("buttonSimple"));
+		botao.click();
+		
+		Assert.assertEquals("Obrigado!", botao.getAttribute("value"));
+		driver.quit();
+
+	}
+	
+	@Test
+	public void deveInteragirComLinks(){
+		System.setProperty("webdriver.chrome.driver", "C:/selenium/chromedriver.exe");
+		ChromeDriver driver = new ChromeDriver();
+		driver.get("file:///" + System.getProperty("user.dir")+ "/src/main/resources/componentes.html");
+		driver.findElementByLinkText("Voltar").click();
+		Assert.assertEquals("Voltou!", driver.findElement(By.id("resultado")).getText());
+		driver.quit();
+
 	}
 
+
+	@Test
+	public void deveBuscarTextosNaPagina(){
+		System.setProperty("webdriver.chrome.driver", "C:/selenium/chromedriver.exe");
+		ChromeDriver driver = new ChromeDriver();
+		driver.get("file:///" + System.getProperty("user.dir")+ "/src/main/resources/componentes.html");
+		//procurando o texto específico na página
+		//Assert.assertTrue(driver.findElement(By.tagName("body")).getText().contains("Campo de Treinamento"));
+		
+		//Assert.assertEquals("Campo de Treinamento", driver.findElement(By.tagName("h3")).getText());
+		
+		//localizando pela classe (ClassName)
+		Assert.assertEquals("Cuidado onde clica, muitas armadilhas...", driver.findElement(By.className("facilAchar")).getText());
+		driver.quit();
+
+	}
 }
+
 	
 
